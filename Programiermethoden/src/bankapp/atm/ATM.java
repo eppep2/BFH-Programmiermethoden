@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import bankapp.account.Account;
 import bankapp.bank.AccountType;
-import bankapp.bank.Bank;
+import bankapp.bank.BankImpl;
 
 /**
  * The class ATM implements the user interface of an automated teller machine.
@@ -17,7 +17,7 @@ public class ATM {
 	/**
 	 * The bank to which the ATM is connected.
 	 */
-	private Bank bank;
+	private BankImpl bank;
 	/**
 	 * The scanner used to read the console input.
 	 */
@@ -29,7 +29,7 @@ public class ATM {
 	 * @param bank
 	 *            - the bank to which the ATM is connected
 	 */
-	public ATM(Bank bank) {
+	public ATM(BankImpl bank) {
 		this.bank = bank;
 	}
 
@@ -229,5 +229,11 @@ public class ATM {
 			}
 		}
 		scanner.close();
+		ArrayList<Account> accounts = bank.getAccounts();
+		AccountComparator accComp = new AccountComparator();
+		accounts.sort(accComp);
+		for(int i=accounts.size()-1;i>=0;i--) {
+			System.out.println(accounts.get(i));
+		}
 	}
 }

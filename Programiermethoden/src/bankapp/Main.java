@@ -3,7 +3,7 @@ package bankapp;
 import bankapp.account.PersonalAccount;
 import bankapp.atm.ATM;
 import bankapp.bank.AccountType;
-import bankapp.bank.Bank;
+import bankapp.bank.BankImpl;
 
 public class Main {
 	
@@ -26,7 +26,7 @@ public class Main {
 	 */
 	public static void bank2() {
 		// Create Bank
-		Bank bank = new Bank();
+		BankImpl bank = new BankImpl();
 		// Open Account
 		int accountnr = bank.openAccount(AccountType.PERSONAL,"1234", 0);
 		// Deposit 100
@@ -38,8 +38,11 @@ public class Main {
 		// Close Account
 		bank.closeAccount(accountnr, "1234");
 	}
+	/**
+	 * Startet den ATM
+	 */
 	public static void bank3() {
-		Bank bank = new Bank();
+		BankImpl bank = new BankImpl();
 		ATM atm = new ATM(bank);
 		atm.run();
 	}

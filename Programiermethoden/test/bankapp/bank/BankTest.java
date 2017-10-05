@@ -16,12 +16,12 @@ public class BankTest {
 	private static final double AMOUNT = 1000.0;
 	private static final double DELTA = 0.01;
 
-	private Bank bank;
+	private BankImpl bank;
 	private int accountNr;
 
 	@Before
 	public void init() throws Exception {
-		bank = new Bank();
+		bank = new BankImpl();
 		accountNr = bank.openAccount(AccountType.PERSONAL,PIN, BALANCE);
 	}
 
