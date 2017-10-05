@@ -60,7 +60,7 @@ public class Account {
 	 */
 	public boolean deposit(double amount) {
 		if (amount >= 0) {
-			balance = Math.round(100 * (balance + amount)) / 100;
+			balance = Math.round(100 * (balance + amount)) / 100.0;
 			return true;
 		} else {
 			return false;
@@ -106,10 +106,7 @@ public class Account {
 		return nr;
 	}
 	/** 
-	 * Generates a string representation of the account in the format:
-	 * AccountNr: 12345
-	 * Balance: 200.00
-	 * PIN: as4kb
+	 * Generates a string representation of the account
 	 */
 	@Override
 	public String toString() {
@@ -129,7 +126,9 @@ public class Account {
 	 */
 	public boolean withdraw(double amount) {
 		if (amount > 0) {
-			balance = Math.round(100 * (balance - amount)) / 100;
+			System.out.println(amount);
+			balance = Math.round(100 * (balance - amount)) / 100.0;
+			System.out.println(balance);
 			return true;
 		} else {
 			return false;
