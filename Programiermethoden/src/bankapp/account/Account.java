@@ -1,5 +1,7 @@
 package bankapp.account;
 
+import bankapp.bank.AccountType;
+
 /**
  * The class Account represents bank accounts.
  * @author Samuel Pulfer
@@ -110,7 +112,7 @@ public abstract class Account {
 	 */
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + " {nr=" + nr + ", balance=" + balance + "}";
+		return getClass().getSimpleName() + " {nr=" + nr + ", balance=" + balance + ", type=" + getType() + "}";
 		/*
 		StringBuilder sb = new StringBuilder();
 		sb.append("AccountNr: " + nr);
@@ -126,9 +128,7 @@ public abstract class Account {
 	 */
 	public boolean withdraw(double amount) {
 		if (amount > 0) {
-			System.out.println(amount);
 			balance = Math.round(100 * (balance - amount)) / 100.0;
-			System.out.println(balance);
 			return true;
 		} else {
 			return false;
@@ -137,6 +137,11 @@ public abstract class Account {
 	public boolean withdraw(int amount) {
 		return withdraw((double) amount);
 	}
+	/**
+	 * Gets the type of the account.
+	 * @return the account type
+	 */
+	public abstract AccountType getType();
 	
 
 }

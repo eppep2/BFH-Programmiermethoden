@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import bankapp.account.Account;
+import bankapp.bank.AccountType;
 import bankapp.bank.Bank;
 
 /**
@@ -178,11 +179,11 @@ public class ATM {
 		if (acctype.equals("personal")) {
 			System.out.println("Please enter a PIN for your new Account");
 			String pin = scanner.nextLine();
-			System.out.println("Your new account number: " + bank.openPersonalAccount(pin, 0));
+			System.out.println("Your new account number: " + bank.openAccount(AccountType.PERSONAL, pin, 0));
 		} else if (acctype.equals("savings")) {
 			System.out.println("Please enter a PIN for your new Account");
 			String pin = scanner.nextLine();
-			System.out.println("Your new account number: " + bank.openSavingsAccount(pin, 0));
+			System.out.println("Your new account number: " + bank.openAccount(AccountType.SAVINGS, pin, 0));
 		} else
 			System.out.println("Unknown account type.\nAborting...");
 	}

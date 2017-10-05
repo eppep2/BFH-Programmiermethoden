@@ -113,32 +113,20 @@ public class Bank {
 	}
 
 	/**
-	 * Opens a personal bank account.
-	 * 
-	 * @param pin
-	 *            - the PIN of the account
-	 * @param balance
-	 *            - the initial balance
+	 * @param type - the account type
+	 * @param pin - the PIN of the account
+	 * @param balance - the initial balance
 	 * @return the account number
 	 */
-	public int openPersonalAccount(String pin, double balance) {
+	public int openAccount(AccountType type, String pin, double balance) {
 		lastAccountNr += 1;
-		accounts.add(new PersonalAccount(lastAccountNr, pin, balance));
-		return lastAccountNr;
-	}
-
-	/**
-	 * Opens a savings bank account.
-	 * 
-	 * @param pin
-	 *            - the PIN of the account
-	 * @param balance
-	 *            - the initial balance
-	 * @return the account number
-	 */
-	public int openSavingsAccount(String pin, double balance) {
-		lastAccountNr += 1;
-		accounts.add(new SavingsAccount(lastAccountNr, pin, balance));
+		if(type == AccountType.PERSONAL)
+			accounts.add(new PersonalAccount(lastAccountNr, pin, balance));
+		else if(type == AccountType.SAVINGS) {
+			accounts.add(new SavingsAccount(lastAccountNr, pin, balance));
+		} else {
+			//this will never happen!!!
+		}
 		return lastAccountNr;
 	}
 

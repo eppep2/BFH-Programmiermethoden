@@ -1,5 +1,7 @@
 package bankapp.account;
 
+import bankapp.bank.AccountType;
+
 /** The class SavingsAccount represents savings bank accounts.
  * @author Samuel Pulfer
  *
@@ -33,5 +35,12 @@ public class SavingsAccount extends Account{
 		else {
 			return super.withdraw(amount);
 		}
+	}
+	/**
+	 * Gets the type of the account.
+	 * @return the account type
+	 */
+	public AccountType getType() {
+		return AccountType.SAVINGS;
 	}
 }
