@@ -7,15 +7,15 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AccountTest {
+public class PersonalAccountTest {
 
 	private static final int NR = 1;
 	private static final String PIN = "12345";
 	private static final double BALANCE = 2000.0;
-	private static final double AMOUNT = 1000.50;
+	private static final double AMOUNT = 1000.0;
 	private static final double DELTA = 0.01;
 
-	private PersonalAccount account;
+	private Account account;
 
 	@Before
 	public void init() {

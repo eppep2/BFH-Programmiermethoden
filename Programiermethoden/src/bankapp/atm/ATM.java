@@ -122,7 +122,7 @@ public class ATM {
 			}
 		}
 		if (bank.withdraw(accountnr, pin, money) == false) {
-			System.out.println("Account not available or wrong pin");
+			System.out.println("Account not available, wrong pin or withdraw limit reached");
 		}
 	}
 
@@ -171,9 +171,20 @@ public class ATM {
 	 */
 	private void openAccount() {
 		System.out.println("\n\n\n\n\n");
-		System.out.println("Please enter a PIN for your new Account");
-		String pin = scanner.nextLine();
-		System.out.println("Your new account number: " + bank.openAccount(pin, 0));
+		System.out.println("Please choose your account type");
+		System.out.println("personal - Personal account");
+		System.out.println("savings - Savings account");
+		String acctype = scanner.nextLine();
+		if (acctype.equals("personal")) {
+			System.out.println("Please enter a PIN for your new Account");
+			String pin = scanner.nextLine();
+			System.out.println("Your new account number: " + bank.openPersonalAccount(pin, 0));
+		} else if (acctype.equals("savings")) {
+			System.out.println("Please enter a PIN for your new Account");
+			String pin = scanner.nextLine();
+			System.out.println("Your new account number: " + bank.openSavingsAccount(pin, 0));
+		} else
+			System.out.println("Unknown account type.\nAborting...");
 	}
 
 	/**

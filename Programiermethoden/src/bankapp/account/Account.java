@@ -5,7 +5,7 @@ package bankapp.account;
  * @author Samuel Pulfer
  *
  */
-public class Account {
+public abstract class Account {
 	// Constructor
 	/**
 	 * @param nr - the account number
@@ -29,15 +29,15 @@ public class Account {
 	/**
 	 * The account balance.
 	 */
-	private double balance;
+	protected double balance;
 	/**
 	 * The number of the account.
 	 */
-	private int nr;
+	protected int nr;
 	/**
 	 * The PIN of the account
 	 */
-	private String pin = "";
+	protected String pin = "";
 	
 	
 	// Methods

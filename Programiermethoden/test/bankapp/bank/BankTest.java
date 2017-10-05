@@ -22,7 +22,7 @@ public class BankTest {
 	@Before
 	public void init() throws Exception {
 		bank = new Bank();
-		accountNr = bank.openAccount(PIN, BALANCE);
+		accountNr = bank.openPersonalAccount(PIN, BALANCE);
 	}
 
 	@Test

@@ -1,6 +1,6 @@
 package bankapp;
 
-import bankapp.account.Account;
+import bankapp.account.PersonalAccount;
 import bankapp.atm.ATM;
 import bankapp.bank.Bank;
 
@@ -11,7 +11,7 @@ public class Main {
 	 */
 	public static void bank1() {
 		// Create Account
-		Account account = new Account(42,"1234");
+		PersonalAccount account = new PersonalAccount(42,"1234", 0);
 		// Deposit 100
 		account.deposit(100);
 		// Withdraw 50
@@ -27,7 +27,7 @@ public class Main {
 		// Create Bank
 		Bank bank = new Bank();
 		// Open Account
-		int accountnr = bank.openAccount("1234", 0);
+		int accountnr = bank.openPersonalAccount("1234", 0);
 		// Deposit 100
 		bank.deposit(accountnr, 100);
 		// Withdraw 50
