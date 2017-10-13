@@ -36,7 +36,7 @@ public class ATM {
 
 	/**
 	 * Closes a bank account.
-	 * @throws BankException 
+	 * @throws BankException - if the account does not exist or the pin is invalid
 	 */
 	private void closeAccount() throws BankException {
 		System.out.println("\n\n\n\n\n");
@@ -63,7 +63,7 @@ public class ATM {
 
 	/**
 	 * Deposits money to a bank account.
-	 * @throws BankException 
+	 * @throws BankException - if the account does not exist or the amount could not be deposited
 	 */
 	private void deposit() throws BankException {
 		System.out.println("\n\n\n\n\n");
@@ -95,6 +95,7 @@ public class ATM {
 
 	/**
 	 * Withdraws money from a bank account.
+	 * @throws BankException - if the account does not exist or the pin is invalid or the amount could not be withdrawn
 	 */
 	private void withdraw() throws BankException {
 		System.out.println("\n\n\n\n\n");
@@ -127,7 +128,7 @@ public class ATM {
 
 	/**
 	 * Gets the balance of a bank account.
-	 * @throws BankException
+	 * @throws BankException - if the account does not exist or the pin is invalid
 	 */
 	private void getBalance() throws BankException {
 		System.out.println("\n\n\n\n\n");

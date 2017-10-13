@@ -38,7 +38,6 @@ public class BankImpl implements Bank{
 	 *            - the account number
 	 * @param pin
 	 *            - the PIN of the account
-	 * @return true if the account has been closed, or false if an error occurred
 	 * @throws BankException - if the account does not exist or the amount could not be deposited
 	 */
 	public void closeAccount(int nr, String pin) throws BankException {
@@ -59,7 +58,6 @@ public class BankImpl implements Bank{
 	 *            - the account number
 	 * @param amount
 	 *            - the amount of money to deposit
-	 * @return true if the amount has been deposited, or false if an error occurred
 	 * @throws BankException - if the account does not exist or the amount could not be deposited
 	 */
 	public void deposit(int nr, double amount) throws BankException {

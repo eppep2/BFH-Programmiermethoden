@@ -14,7 +14,6 @@ public interface Bank {
 	 * Closes an account.
 	 * @param nr - the account number
 	 * @param pin - the PIN of the account
-	 * @return true if the account has been closed, or false if an error occurred
 	 * @throws BankException - if the account does not exist or the pin is invalid
 	 */
 	void closeAccount(int nr, String pin) throws BankException;
@@ -22,7 +21,6 @@ public interface Bank {
 	 * Deposits money into an account.
 	 * @param nr - the account number
 	 * @param amount - the amount of money to deposit
-	 * @return true if the amount has been deposited, or false if an error occurred
 	 * @throws BankException - if the account does not exist or the amount could not be deposited
 	 */
 	void deposit(int nr, double amount) throws BankException;
@@ -52,7 +50,6 @@ public interface Bank {
 	 * @param nr - the account number
 	 * @param pin - the PIN of the account
 	 * @param amount - the amount of money to withdraw
-	 * @return true if the amount has been withdrawn, or false if an error occurred
 	 * @throws BankException - if the account does not exist or the pin is invalid or the amount could not be withdrawn
 	 */
 	void withdraw(int nr, String pin, double amount) throws BankException;
