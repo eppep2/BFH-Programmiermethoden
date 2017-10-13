@@ -12,7 +12,7 @@ import bankapp.account.SavingsAccount;
  * @author Samuel Pulfer
  *
  */
-public class BankImpl {
+public class BankImpl implements Bank{
 	/**
 	 * The bank accounts.
 	 */
@@ -39,17 +39,17 @@ public class BankImpl {
 	 * @param pin
 	 *            - the PIN of the account
 	 * @return true if the account has been closed, or false if an error occurred
+	 * @throws BankException - if the account does not exist or the amount could not be deposited
 	 */
-	public boolean closeAccount(int nr, String pin) {
+	public void closeAccount(int nr, String pin) throws BankException {
 		Account account = findAccount(nr);
 		if (account == null)
-			return false;
-		if (account.checkPIN(pin))
-			// It souldn't be possible to close Accounts with money on it...
-			// if (account.getBalance() >= 0 - EPSILON && account.getBalance() <= 0 +
-			// EPSILON)
-			return accounts.remove(account);
-		return false;
+			throw new BankException("Account does not exist");
+		account.checkPIN(pin);
+		// It souldn't be possible to close Accounts with money on it...
+		// if (account.getBalance() >= 0 - EPSILON && account.getBalance() <= 0 +
+		// EPSILON)
+		accounts.remove(account);
 	}
 
 	/**
@@ -60,12 +60,13 @@ public class BankImpl {
 	 * @param amount
 	 *            - the amount of money to deposit
 	 * @return true if the amount has been deposited, or false if an error occurred
+	 * @throws BankException - if the account does not exist or the amount could not be deposited
 	 */
-	public boolean deposit(int nr, double amount) {
+	public void deposit(int nr, double amount) throws BankException {
 		Account account = findAccount(nr);
 		if (account == null)
-			return false;
-		return account.deposit(amount);
+			throw new BankException("Account does not exist");
+		account.deposit(amount);
 	}
 
 	/**
@@ -74,14 +75,15 @@ public class BankImpl {
 	 * @param nr
 	 *            - the account number
 	 * @return the account, or null if the account does not exist
+	 * @throws BankException - if the account does not exist
 	 */
-	private Account findAccount(int nr) {
+	private Account findAccount(int nr) throws BankException {
 		for (Account account : accounts) {
 			if (account.getNr() == nr) {
 				return account;
 			}
 		}
-		return null;
+		throw new BankException("Account does not exist");
 	}
 
 	/**
@@ -101,15 +103,14 @@ public class BankImpl {
 	 * @param pin
 	 *            - the PIN of the account
 	 * @return the account balance, or null if an error occurred
+	 * @throws BankException - if the account does not exist or the pin is invalid
 	 */
-	public Double getBalance(int nr, String pin) {
+	public Double getBalance(int nr, String pin) throws BankException {
 		Account account = findAccount(nr);
 		if (account == null)
-			return null;
-		if (account.checkPIN(pin)) {
-			return account.getBalance();
-		}
-		return null;
+			throw new BankException("Account does not exist");
+		account.checkPIN(pin);
+		return account.getBalance();
 	}
 
 	/**
@@ -139,14 +140,13 @@ public class BankImpl {
 	 *            - the PIN of the account
 	 * @param amount
 	 *            - the amount of money to withdraw
-	 * @return true if the amount has been withdrawn, or false if an error occurred
+	 * @throws BankException - if the account does not exist or the pin is invalid or the amount could not be withdrawn
 	 */
-	public boolean withdraw(int nr, String pin, double amount) {
+	public void withdraw(int nr, String pin, double amount) throws BankException {
 		Account account = findAccount(nr);
 		if (account == null)
-			return false;
-		if (account.checkPIN(pin))
-			return account.withdraw(amount);
-		return false;
+			throw new BankException("Account does not exist");
+		account.checkPIN(pin);
+		account.withdraw(amount);
 	}
 }

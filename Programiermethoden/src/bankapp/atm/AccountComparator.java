@@ -19,7 +19,7 @@ public class AccountComparator implements Comparator<Account> {
 	 */
 	@Override
 	public int compare(Account account1, Account account2) {
-		return (int) (account2.getBalance() - account1.getBalance());
+		return Double.compare(account1.getBalance(), account2.getBalance());
 	}
 
 }

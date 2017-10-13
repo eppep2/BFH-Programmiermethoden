@@ -3,14 +3,17 @@ package bankapp;
 import bankapp.account.PersonalAccount;
 import bankapp.atm.ATM;
 import bankapp.bank.AccountType;
+import bankapp.bank.Bank;
+import bankapp.bank.BankException;
 import bankapp.bank.BankImpl;
 
 public class Main {
 	
 	/**
 	 * Erzeugt ein Bankkonto, zahlt Geldbetrag ein, hebt Geldbetrag ab und gibt Kontostand aus.
+	 * @throws BankException 
 	 */
-	public static void bank1() {
+	public static void bank1() throws BankException {
 		// Create Account
 		PersonalAccount account = new PersonalAccount(42,"1234", 0);
 		// Deposit 100
@@ -23,8 +26,9 @@ public class Main {
 	
 	/**
 	 * Erzeugt Bank-Objekt, eröffnet Bankkonto, zahlt Geldbetrag ein, hebt Geldbetrag ab, gibt Kontostand aus und schliesst Konto.
+	 * @throws BankException 
 	 */
-	public static void bank2() {
+	public static void bank2() throws BankException {
 		// Create Bank
 		BankImpl bank = new BankImpl();
 		// Open Account
@@ -42,10 +46,12 @@ public class Main {
 	 * Startet den ATM
 	 */
 	public static void bank3() {
-		BankImpl bank = new BankImpl();
+		Bank bank = new BankImpl();
 		ATM atm = new ATM(bank);
 		atm.run();
 	}
+	
+	
 
 	public static void main(String[] args) {
 		bank3();

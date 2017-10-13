@@ -5,7 +5,8 @@ import java.util.Scanner;
 
 import bankapp.account.Account;
 import bankapp.bank.AccountType;
-import bankapp.bank.BankImpl;
+import bankapp.bank.Bank;
+import bankapp.bank.BankException;
 
 /**
  * The class ATM implements the user interface of an automated teller machine.
@@ -17,7 +18,7 @@ public class ATM {
 	/**
 	 * The bank to which the ATM is connected.
 	 */
-	private BankImpl bank;
+	private Bank bank;
 	/**
 	 * The scanner used to read the console input.
 	 */
@@ -29,14 +30,15 @@ public class ATM {
 	 * @param bank
 	 *            - the bank to which the ATM is connected
 	 */
-	public ATM(BankImpl bank) {
+	public ATM(Bank bank) {
 		this.bank = bank;
 	}
 
 	/**
 	 * Closes a bank account.
+	 * @throws BankException 
 	 */
-	private void closeAccount() {
+	private void closeAccount() throws BankException {
 		System.out.println("\n\n\n\n\n");
 		System.out.println("Enter your Account Nr.");
 		int accountnr;
@@ -53,8 +55,7 @@ public class ATM {
 		String pin = scanner.nextLine();
 		System.out.println("Are you sure you want to close the account with number: " + accountnr + " ?\n (yes/no)");
 		if (scanner.nextLine().equals("yes")) {
-			if (!bank.closeAccount(accountnr, pin))
-				System.out.println("An error occurred...");
+			bank.closeAccount(accountnr, pin);
 		} else {
 			System.out.println("Abort operation");
 		}
@@ -62,8 +63,9 @@ public class ATM {
 
 	/**
 	 * Deposits money to a bank account.
+	 * @throws BankException 
 	 */
-	private void deposit() {
+	private void deposit() throws BankException {
 		System.out.println("\n\n\n\n\n");
 		System.out.println("Enter your Account Nr.");
 		int accountnr;
@@ -87,16 +89,14 @@ public class ATM {
 				System.out.println("This wasn't a double...\n Try again!");
 			}
 		}
-		if (bank.deposit(accountnr, money) == false) {
-			System.out.println("Account not available");
-		}
+		bank.deposit(accountnr, money);
 
 	}
 
 	/**
 	 * Withdraws money from a bank account.
 	 */
-	private void withdraw() {
+	private void withdraw() throws BankException {
 		System.out.println("\n\n\n\n\n");
 		System.out.println("Enter your Account Nr.");
 		int accountnr;
@@ -122,15 +122,14 @@ public class ATM {
 				System.out.println("This wasn't a double...\n Try again!");
 			}
 		}
-		if (bank.withdraw(accountnr, pin, money) == false) {
-			System.out.println("Account not available, wrong pin or withdraw limit reached");
-		}
+		bank.withdraw(accountnr, pin, money);
 	}
 
 	/**
 	 * Gets the balance of a bank account.
+	 * @throws BankException
 	 */
-	private void getBalance() {
+	private void getBalance() throws BankException {
 		System.out.println("\n\n\n\n\n");
 		System.out.println("Enter your Account Nr.");
 		int accountnr;
@@ -146,11 +145,7 @@ public class ATM {
 		System.out.println("Enter your PIN");
 		String pin = scanner.nextLine();
 		Double balance = bank.getBalance(accountnr, pin);
-		if (balance == null) {
-			System.out.println("Account not available or wrong pin");
-		} else {
-			System.out.println("Your current balance: " + balance);
-		}
+		System.out.println("Your current balance: " + balance);
 	}
 
 	/**
@@ -215,13 +210,29 @@ public class ATM {
 				else if (input.equals("open"))
 					openAccount();
 				else if (input.equals("close"))
-					closeAccount();
+					try {
+						closeAccount();
+					} catch (BankException e) {
+						System.out.println(e.getMessage());
+					}
 				else if (input.equals("check"))
-					getBalance();
+					try {
+						getBalance();
+					} catch (BankException e) {
+						System.out.println(e.getMessage());
+					}
 				else if (input.equals("deposit"))
-					deposit();
+					try {
+						deposit();
+					} catch (BankException e) {
+						System.out.println(e.getMessage());
+					}
 				else if (input.equals("withdraw"))
-					withdraw();
+					try {
+						withdraw();
+					} catch (BankException e) {
+						System.out.println(e.getMessage());
+					}
 				else {
 					System.out.println("No valid input");
 					break;
@@ -232,8 +243,8 @@ public class ATM {
 		ArrayList<Account> accounts = bank.getAccounts();
 		AccountComparator accComp = new AccountComparator();
 		accounts.sort(accComp);
-		for(int i=accounts.size()-1;i>=0;i--) {
-			System.out.println(accounts.get(i));
+		for(Account account:accounts) {
+			System.out.println(account);
 		}
 	}
 }

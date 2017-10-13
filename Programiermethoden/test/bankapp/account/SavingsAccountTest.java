@@ -1,11 +1,12 @@
 package bankapp.account;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import bankapp.bank.BankException;
 
 public class SavingsAccountTest {
 
@@ -28,13 +29,13 @@ public class SavingsAccountTest {
 	}
 
 	@Test
-	public void testPIN() {
-		assertTrue(account.checkPIN(PIN));
+	public void testPIN() throws BankException {
+		account.checkPIN(PIN);
 	}
 
-	@Test
-	public void testInvalidPIN() {
-		assertFalse(account.checkPIN(""));
+	@Test(expected = BankException.class)
+	public void testInvalidPIN() throws BankException {
+		account.checkPIN("");
 	}
 
 	@Test
@@ -43,38 +44,54 @@ public class SavingsAccountTest {
 	}
 
 	@Test
-	public void testDeposit() {
-		assertTrue(account.deposit(AMOUNT));
+	public void testDeposit() throws BankException {
+		account.deposit(AMOUNT);
 		assertEquals(BALANCE + AMOUNT, account.getBalance(), DELTA);
 	}
 
 	@Test
-	public void testDepositInvalidAmount() {
-		assertFalse(account.deposit(-AMOUNT));
-		assertEquals(BALANCE, account.getBalance(), DELTA);
+	public void testDepositInvalidAmount() throws BankException {
+		try {
+			account.deposit(-AMOUNT);
+			fail("Exception expected: " + BankException.class.getName());
+		} catch (BankException ex) {
+			assertEquals(BALANCE, account.getBalance(), DELTA);
+		}
 	}
 
 	@Test
-	public void testWithdraw() {
-		assertTrue(account.withdraw(AMOUNT));
+	public void testWithdraw() throws BankException {
+		account.withdraw(AMOUNT);
 		assertEquals(BALANCE - AMOUNT, account.getBalance(), DELTA);
 	}
 
 	@Test
 	public void testWithdrawInvalidAmount() {
-		assertFalse(account.withdraw(-AMOUNT));
-		assertEquals(BALANCE, account.getBalance(), DELTA);
+		try {
+			account.withdraw(-AMOUNT);
+			fail("Exception expected: " + BankException.class.getName());
+		} catch (BankException ex) {
+			assertEquals(BALANCE, account.getBalance(), DELTA);
+		}
 	}
 
 	@Test
 	public void testWithdrawLimit() {
-		assertFalse(account.withdraw(2 * SavingsAccount.WITHDRAW_LIMIT));
-		assertEquals(BALANCE, account.getBalance(), DELTA);
+		try {
+			account.withdraw(2 * SavingsAccount.WITHDRAW_LIMIT);
+			fail("Exception expected: " + BankException.class.getName());
+		} catch (BankException ex) {
+			assertEquals(BALANCE, account.getBalance(), DELTA);
+		}
 	}
 
 	@Test
 	public void testOverdraw() {
-		assertFalse(account.withdraw(2 * BALANCE));
-		assertEquals(BALANCE, account.getBalance(), DELTA);
+		try {
+			account.withdraw(2 * BALANCE);
+			fail("Exception expected: " + BankException.class.getName());
+		} catch (BankException ex) {
+			assertEquals(BALANCE, account.getBalance(), DELTA);
+		}
 	}
 }

@@ -1,6 +1,7 @@
 package bankapp.account;
 
 import bankapp.bank.AccountType;
+import bankapp.bank.BankException;
 
 /**
  * The class Account represents bank accounts.
@@ -46,26 +47,22 @@ public abstract class Account {
 	/**
 	 * Checks the PIN of the account.
 	 * @param pin - the PIN to check
-	 * @return true if the PIN is valid, false otherwise
+	 * @throws BankException - if the PIN is invalid
 	 */
-	public boolean checkPIN(String pin) {
-		if (pin.equals(this.pin)) {
-			return true;
-		} else {
-			return false;
-		}
+	public void checkPIN(String pin) throws BankException{
+		if (!pin.equals(this.pin))
+			throw new BankException("Pin is invalid");
 	}
 	/**
 	 * Deposits money into the account.
 	 * @param amount - the amount of money to deposit
-	 * @return true if the deposit was successful, false otherwise
+	 * @throws BankException - if the deposit failed
 	 */
-	public boolean deposit(double amount) {
+	public void deposit(double amount) throws BankException {
 		if (amount >= 0) {
 			balance = Math.round(100 * (balance + amount)) / 100.0;
-			return true;
 		} else {
-			return false;
+			throw new BankException("Deposit failed");
 		}
 	}
 	/**
@@ -124,18 +121,22 @@ public abstract class Account {
 	/**
 	 * Withdraws money from the account.
 	 * @param amount - the amount of money to withdraw
-	 * @return true if the withdrawal was successful, false otherwise
+	 * @throws BankException - if the withdrawal failed
 	 */
-	public boolean withdraw(double amount) {
+	public void withdraw(double amount) throws BankException {
 		if (amount > 0) {
 			balance = Math.round(100 * (balance - amount)) / 100.0;
-			return true;
 		} else {
-			return false;
+			throw new BankException("Withdrawal failed");
 		}
 	}
-	public boolean withdraw(int amount) {
-		return withdraw((double) amount);
+	/**
+	 * Withdraws money from the account.
+	 * @param amount - the amount of money to withdraw
+	 * @throws BankException - if the withdrawal failed
+	 */
+	public void withdraw(int amount) throws BankException {
+		withdraw((double) amount);
 	}
 	/**
 	 * Gets the type of the account.

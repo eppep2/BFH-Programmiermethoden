@@ -1,10 +1,9 @@
 package bankapp.bank;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,13 +15,16 @@ public class BankTest {
 	private static final double AMOUNT = 1000.0;
 	private static final double DELTA = 0.01;
 
-	private BankImpl bank;
+	private Bank bank;
 	private int accountNr;
 
 	@Before
 	public void init() throws Exception {
 		bank = new BankImpl();
-		accountNr = bank.openAccount(AccountType.PERSONAL,PIN, BALANCE);
+		if (Math.random() < 0.5)
+			accountNr = bank.openAccount(AccountType.PERSONAL, PIN, BALANCE);
+		else
+			accountNr = bank.openAccount(AccountType.SAVINGS, PIN, BALANCE);
 	}
 
 	@Test
@@ -31,71 +33,99 @@ public class BankTest {
 	}
 
 	@Test
-	public void testBalance() {
+	public void testBalance() throws BankException {
 		assertEquals(BALANCE, bank.getBalance(accountNr, PIN), DELTA);
 	}
 
-	@Test
-	public void testBalanceInvalidNr() {
+	@Test(expected = BankException.class)
+	public void testBalanceInvalidNr() throws BankException {
 		assertNull(bank.getBalance(-1, PIN));
 	}
 
-	@Test
-	public void testBalanceInvalidPIN() {
+	@Test(expected = BankException.class)
+	public void testBalanceInvalidPIN() throws BankException {
 		assertNull(bank.getBalance(accountNr, ""));
 	}
 
 	@Test
-	public void testDeposit() {
-		assertTrue(bank.deposit(accountNr, AMOUNT));
+	public void testDeposit() throws BankException {
+		bank.deposit(accountNr, AMOUNT);
 		assertEquals(BALANCE + AMOUNT, bank.getBalance(accountNr, PIN), DELTA);
 	}
 
 	@Test
-	public void testDepositInvalidNr() {
-		assertFalse(bank.deposit(-1, AMOUNT));
-		assertEquals(BALANCE, bank.getBalance(accountNr, PIN), DELTA);
+	public void testDepositInvalidNr() throws BankException {
+		try {
+			bank.deposit(-1, AMOUNT);
+			fail("Exception expected: " + BankException.class.getName());
+		} catch (BankException ex) {
+			assertEquals(BALANCE, bank.getBalance(accountNr, PIN), DELTA);
+		}
 	}
 
 	@Test
-	public void testWithdraw() {
-		assertTrue(bank.withdraw(accountNr, PIN, AMOUNT));
+	public void testWithdraw() throws BankException {
+		bank.withdraw(accountNr, PIN, AMOUNT);
 		assertEquals(BALANCE - AMOUNT, bank.getBalance(accountNr, PIN), DELTA);
 	}
 
 	@Test
-	public void testWithdrawInvalidNr() {
-		assertFalse(bank.withdraw(-1, PIN, AMOUNT));
-		assertEquals(BALANCE, bank.getBalance(accountNr, PIN), DELTA);
+	public void testWithdrawInvalidNr() throws BankException {
+		try {
+			bank.withdraw(-1, PIN, AMOUNT);
+			fail("Exception expected: " + BankException.class.getName());
+		} catch (BankException ex) {
+			assertEquals(BALANCE, bank.getBalance(accountNr, PIN), DELTA);
+		}
 	}
 
 	@Test
-	public void testWithdrawInvalidPIN() {
-		assertFalse(bank.withdraw(accountNr, "", AMOUNT));
-		assertEquals(BALANCE, bank.getBalance(accountNr, PIN), DELTA);
+	public void testWithdrawInvalidPIN() throws BankException {
+		try {
+			bank.withdraw(accountNr, "", AMOUNT);
+			fail("Exception expected: " + BankException.class.getName());
+		} catch (BankException ex) {
+			assertEquals(BALANCE, bank.getBalance(accountNr, PIN), DELTA);
+		}
 	}
 
 	@Test
-	public void testWithdrawInvalidAmount() {
-		assertFalse(bank.withdraw(accountNr, PIN, -AMOUNT));
-		assertEquals(BALANCE, bank.getBalance(accountNr, PIN), DELTA);
+	public void testWithdrawInvalidAmount() throws BankException {
+		try {
+			bank.withdraw(accountNr, PIN, -AMOUNT);
+			fail("Exception expected: " + BankException.class.getName());
+		} catch (BankException ex) {
+			assertEquals(BALANCE, bank.getBalance(accountNr, PIN), DELTA);
+		}
 	}
 
 	@Test
-	public void testClose() {
-		assertTrue(bank.closeAccount(accountNr, PIN));
-		assertNull(bank.getBalance(accountNr, PIN));
+	public void testClose() throws BankException {
+		bank.closeAccount(accountNr, PIN);
+		try {
+			bank.getBalance(accountNr, PIN);
+			fail("Exception expected: " + BankException.class.getName());
+		} catch (BankException ex) {
+		}
 	}
 
 	@Test
-	public void testCloseInvalidNr() {
-		assertFalse(bank.closeAccount(-1, PIN));
-		assertNotNull(bank.getBalance(accountNr, PIN));
+	public void testCloseInvalidNr() throws BankException {
+		try {
+			bank.closeAccount(-1, PIN);
+			fail("Exception expected: " + BankException.class.getName());
+		} catch (BankException ex) {
+			assertNotNull(bank.getBalance(accountNr, PIN));
+		}
 	}
 
 	@Test
-	public void testCloseInvalidPIN() {
-		assertFalse(bank.closeAccount(accountNr, ""));
-		assertNotNull(bank.getBalance(accountNr, PIN));
+	public void testCloseInvalidPIN() throws BankException {
+		try {
+			bank.closeAccount(accountNr, "");
+			fail("Exception expected: " + BankException.class.getName());
+		} catch (BankException ex) {
+			assertNotNull(bank.getBalance(accountNr, PIN));
+		}
 	}
 }

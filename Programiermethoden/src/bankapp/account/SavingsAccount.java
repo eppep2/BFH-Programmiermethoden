@@ -1,6 +1,7 @@
 package bankapp.account;
 
 import bankapp.bank.AccountType;
+import bankapp.bank.BankException;
 
 /** The class SavingsAccount represents savings bank accounts.
  * @author Samuel Pulfer
@@ -24,16 +25,16 @@ public class SavingsAccount extends Account{
 	
 	/** Withdraws money from the account.
 	 * @param amount - the amount of money to withdraw
-	 * @return true if the withdrawal was successful, false otherwise
+	 * @throws BankException - if the withdrawal failed
 	 */
 	@Override
-	public boolean withdraw(double amount) {
+	public void withdraw(double amount) throws BankException{
 		if (amount > super.balance)
-			return false;
+			throw new BankException("Amount is higher than balance");
 		else if(amount > WITHDRAW_LIMIT)
-			return false;
+			throw new BankException("Amount is higher than withdraw limit");
 		else {
-			return super.withdraw(amount);
+			super.withdraw(amount);
 		}
 	}
 	/**
