@@ -103,7 +103,7 @@ public class BankImpl implements Bank{
 	 * @return the account balance, or null if an error occurred
 	 * @throws BankException - if the account does not exist or the pin is invalid
 	 */
-	public Double getBalance(int nr, String pin) throws BankException {
+	public double getBalance(int nr, String pin) throws BankException {
 		Account account = findAccount(nr);
 		if (account == null)
 			throw new BankException("Account does not exist");

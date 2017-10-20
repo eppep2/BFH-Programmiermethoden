@@ -1,7 +1,8 @@
 package bankapp;
 
 import bankapp.account.PersonalAccount;
-import bankapp.atm.ATM;
+//import bankapp.atm.ATM;
+import bankapp.atmgui.ATM;
 import bankapp.bank.AccountType;
 import bankapp.bank.Bank;
 import bankapp.bank.BankException;
