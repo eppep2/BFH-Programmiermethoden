@@ -14,7 +14,7 @@ public class BankException extends Exception {
 
 	/**
 	 * Constructs a bank exception.
-	 * @param message - the error message
+	 * @param message the error message
 	 */
 	public BankException(String message) {
 		super(message);

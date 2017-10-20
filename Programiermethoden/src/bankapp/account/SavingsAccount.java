@@ -15,17 +15,17 @@ public class SavingsAccount extends Account{
 	static double WITHDRAW_LIMIT = 2000;
 	
 	/** Constructs a savings bank account.
-	 * @param nr - the account number
-	 * @param pin - the PIN of the account
-	 * @param balance - the initial balance
+	 * @param nr the account number
+	 * @param pin the PIN of the account
+	 * @param balance the initial balance
 	 */
 	public SavingsAccount(int nr, String pin, double balance) {
 		super(nr, pin, balance);
 	}
 	
 	/** Withdraws money from the account.
-	 * @param amount - the amount of money to withdraw
-	 * @throws BankException - if the withdrawal failed
+	 * @param amount the amount of money to withdraw
+	 * @throws BankException if the withdrawal failed
 	 */
 	@Override
 	public void withdraw(double amount) throws BankException{

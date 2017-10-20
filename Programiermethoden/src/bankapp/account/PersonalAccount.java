@@ -10,9 +10,9 @@ import bankapp.bank.AccountType;
 public class PersonalAccount extends Account {
 
 	/** Constructs a personal bank account.
-	 * @param nr - the account number
-	 * @param pin - the PIN of the account
-	 * @param balance - the initial balance
+	 * @param nr the account number
+	 * @param pin the PIN of the account
+	 * @param balance the initial balance
 	 */
 	public PersonalAccount(int nr, String pin, double balance) {
 		super(nr, pin, balance);

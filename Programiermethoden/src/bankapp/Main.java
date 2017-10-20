@@ -1,8 +1,8 @@
 package bankapp;
 
 import bankapp.account.PersonalAccount;
-//import bankapp.atm.ATM;
-import bankapp.atmgui.ATM;
+import bankapp.atm.ATM;
+//import bankapp.atmgui.ATM;
 import bankapp.bank.AccountType;
 import bankapp.bank.Bank;
 import bankapp.bank.BankException;
@@ -12,7 +12,7 @@ public class Main {
 	
 	/**
 	 * Erzeugt ein Bankkonto, zahlt Geldbetrag ein, hebt Geldbetrag ab und gibt Kontostand aus.
-	 * @throws BankException - If the withdraw or deposit failed
+	 * @throws BankException If the withdraw or deposit failed
 	 */
 	public static void bank1() throws BankException {
 		// Create Account
@@ -27,7 +27,7 @@ public class Main {
 	
 	/**
 	 * Erzeugt Bank-Objekt, eröffnet Bankkonto, zahlt Geldbetrag ein, hebt Geldbetrag ab, gibt Kontostand aus und schliesst Konto.
-	 * @throws BankException - if the account does not exist, the withdraw failed or the deposit failed
+	 * @throws BankException if the account does not exist, the withdraw failed or the deposit failed
 	 */
 	public static void bank2() throws BankException {
 		// Create Bank

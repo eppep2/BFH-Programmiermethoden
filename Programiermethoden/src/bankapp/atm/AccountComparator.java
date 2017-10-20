@@ -13,8 +13,8 @@ public class AccountComparator implements Comparator<Account> {
 
 	/**
 	 * Compares two bank accounts regarding their balance.
-	 * @param account1 - the first account
-	 * @param account2 - the second account
+	 * @param account1 the first account
+	 * @param account2 the second account
 	 * @return negative integer, zero, or a positive integer as the balance of the first account is less than, equal to, or greater than the balance of the second account
 	 */
 	@Override

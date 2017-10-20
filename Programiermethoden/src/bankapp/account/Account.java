@@ -1,5 +1,8 @@
 package bankapp.account;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import bankapp.bank.AccountType;
 import bankapp.bank.BankException;
 
@@ -9,23 +12,26 @@ import bankapp.bank.BankException;
  *
  */
 public abstract class Account {
-	// Constructor
 	/**
-	 * @param nr - the account number
-	 * @param pin - the PIN of the account
+	 * Constructs an empty bank account.
+	 * @param nr the account number
+	 * @param pin the PIN of the account
 	 */
 	public Account (int nr, String pin) {
 		this(nr,pin,0.0);
 	}
 	/**
-	 * @param nr - the account number
-	 * @param pin - the PIN of the account
-	 * @param balance - the initial balance
+	 * Constructs a bank account.
+	 * @param nr the account number
+	 * @param pin the PIN of the account
+	 * @param balance the initial balance
 	 */
 	public Account (int nr, String pin, double balance) {
 		this.balance = balance;
 		this.nr = nr;
 		this.pin = pin;
+		transactions = new ArrayList<Transaction>();
+		transactions.add(new Transaction(0, 0));
 		
 	}
 	
@@ -41,13 +47,17 @@ public abstract class Account {
 	 * The PIN of the account
 	 */
 	protected String pin = "";
+	/**
+	 * The transactions of the account.
+	 */
+	private List<Transaction> transactions;
 	
 	
 	// Methods
 	/**
 	 * Checks the PIN of the account.
-	 * @param pin - the PIN to check
-	 * @throws BankException - if the PIN is invalid
+	 * @param pin the PIN to check
+	 * @throws BankException if the PIN is invalid
 	 */
 	public void checkPIN(String pin) throws BankException{
 		if (!pin.equals(this.pin))
@@ -55,19 +65,20 @@ public abstract class Account {
 	}
 	/**
 	 * Deposits money into the account.
-	 * @param amount - the amount of money to deposit
-	 * @throws BankException - if the deposit failed
+	 * @param amount the amount of money to deposit
+	 * @throws BankException if the deposit failed
 	 */
 	public void deposit(double amount) throws BankException {
 		if (amount >= 0) {
 			balance = Math.round(100 * (balance + amount)) / 100.0;
+			transactions.add(new Transaction(amount, balance));
 		} else {
 			throw new BankException("Deposit failed");
 		}
 	}
 	/**
 	 * Checks if the account is equal to an another object by the AccountNr.
-	 * @param object - the other object
+	 * @param object the other object
 	 * @return true if the accounts are equal, false otherwise
 	 */
 	@Override
@@ -120,20 +131,21 @@ public abstract class Account {
 	}
 	/**
 	 * Withdraws money from the account.
-	 * @param amount - the amount of money to withdraw
-	 * @throws BankException - if the withdrawal failed
+	 * @param amount the amount of money to withdraw
+	 * @throws BankException if the withdrawal failed
 	 */
 	public void withdraw(double amount) throws BankException {
 		if (amount > 0) {
 			balance = Math.round(100 * (balance - amount)) / 100.0;
+			transactions.add(new Transaction(0.0 - amount, balance));
 		} else {
 			throw new BankException("Withdrawal failed");
 		}
 	}
 	/**
 	 * Withdraws money from the account.
-	 * @param amount - the amount of money to withdraw
-	 * @throws BankException - if the withdrawal failed
+	 * @param amount the amount of money to withdraw
+	 * @throws BankException if the withdrawal failed
 	 */
 	public void withdraw(int amount) throws BankException {
 		withdraw((double) amount);
@@ -144,5 +156,11 @@ public abstract class Account {
 	 */
 	public abstract AccountType getType();
 	
-
+	/**
+	 * Gets the transactions of the account.
+	 * @return the account transactions
+	 */
+	public List<Transaction> getTransactions(){
+		return transactions;
+	}
 }
