@@ -144,6 +144,8 @@ public class BankImpl implements Bank{
 	 */
 	public List<Transaction> getTransactions(int nr, String pin) throws BankException{
 		Account account = findAccount(nr);
+		account.checkPIN(pin);
 		return account.getTransactions();
+
 	}
 }
