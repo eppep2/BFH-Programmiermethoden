@@ -31,7 +31,7 @@ public abstract class Account {
 		this.nr = nr;
 		this.pin = pin;
 		transactions = new ArrayList<Transaction>();
-		transactions.add(new Transaction(0, 0));
+		transactions.add(new Transaction(balance, balance));
 		
 	}
 	
