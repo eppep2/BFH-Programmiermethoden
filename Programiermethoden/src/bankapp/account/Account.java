@@ -1,5 +1,6 @@
 package bankapp.account;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,13 @@ import bankapp.bank.BankException;
  * @author Samuel Pulfer
  *
  */
-public abstract class Account {
+public abstract class Account implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	/**
 	 * Constructs an empty bank account.
 	 * @param nr the account number

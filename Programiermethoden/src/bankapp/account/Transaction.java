@@ -1,5 +1,6 @@
 package bankapp.account;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,7 +10,11 @@ import java.util.Date;
  * @author Samuel Pulfer
  *
  */
-public class Transaction {
+public class Transaction implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//** The amount of the transaction. */
 	private double amount;
 	//** The current account balance. */

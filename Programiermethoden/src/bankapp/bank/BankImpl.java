@@ -1,5 +1,11 @@
 package bankapp.bank;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +22,11 @@ import bankapp.account.Transaction;
  * @author Samuel Pulfer
  *
  */
-public class BankImpl implements Bank{
+public class BankImpl implements Bank, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * The bank accounts associated to their numbers.
 	 */
@@ -29,10 +39,14 @@ public class BankImpl implements Bank{
 	 * Value to compare double to zero.
 	 */
 	//private final double EPSILON = Math.ulp(1.0);
+	
+	/**
+	 * The name of the data file.
+	 */
+	private static String DATA_FILE = "C:/Temp/BankImpl.data";
 
 	public BankImpl() {
-		lastAccountNr = 0;
-		accounts = new HashMap<Integer,Account>();
+		loadData();
 	}
 
 	/**
@@ -49,6 +63,7 @@ public class BankImpl implements Bank{
 		// if (account.getBalance() >= 0 - EPSILON && account.getBalance() <= 0 +
 		// EPSILON)
 		accounts.remove(nr);
+		saveData();
 	}
 
 	/**
@@ -63,6 +78,7 @@ public class BankImpl implements Bank{
 		if (account == null)
 			throw new BankException("Account does not exist");
 		account.deposit(amount);
+		saveData();
 	}
 
 	/**
@@ -119,6 +135,7 @@ public class BankImpl implements Bank{
 		} else {
 			//this will never happen!!!
 		}
+		saveData();
 		return lastAccountNr;
 	}
 
@@ -136,6 +153,7 @@ public class BankImpl implements Bank{
 			throw new BankException("Account does not exist");
 		account.checkPIN(pin);
 		account.withdraw(amount);
+		saveData();
 	}
 	
 
@@ -147,5 +165,30 @@ public class BankImpl implements Bank{
 		account.checkPIN(pin);
 		return account.getTransactions();
 
+	}
+	
+	/**
+	 * Loads the data of the bank from a file.
+	 */
+	private void loadData() {
+		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(DATA_FILE))){
+			BankImpl restore = (BankImpl) in.readObject();
+			this.accounts = restore.accounts;
+			this.lastAccountNr = restore.lastAccountNr;
+		} catch (IOException | ClassNotFoundException e) {
+			lastAccountNr = 0;
+			accounts = new HashMap<Integer,Account>();
+		}
+	}
+	
+	/**
+	 * Saves the data of the bank to a file.
+	 */
+	private void saveData() {
+		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(DATA_FILE))){
+			out.writeObject(this);
+		} catch (IOException e) {
+			// Nothing to do here...
+		}
 	}
 }
