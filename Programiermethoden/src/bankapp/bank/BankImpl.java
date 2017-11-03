@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +47,7 @@ public class BankImpl implements Bank, Serializable{
 	private static String DATA_FILE = "C:/Temp/BankImpl.data";
 
 	public BankImpl() {
+		Paths.get(DATA_FILE).getParent().toFile().mkdirs();
 		loadData();
 	}
 
