@@ -23,11 +23,8 @@ import bankapp.account.Transaction;
  * @author Samuel Pulfer
  *
  */
-public class BankImpl implements Bank, Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class BankImpl implements Bank {
+
 	/**
 	 * The bank accounts associated to their numbers.
 	 */
@@ -174,9 +171,11 @@ public class BankImpl implements Bank, Serializable{
 	 */
 	private void loadData() {
 		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(DATA_FILE))){
-			BankImpl restore = (BankImpl) in.readObject();
-			this.accounts = restore.accounts;
-			this.lastAccountNr = restore.lastAccountNr;
+			//BankImpl restore = (BankImpl) in.readObject();
+			lastAccountNr = in.readInt();
+			accounts = (Map<Integer, Account>) in.readObject();
+			//this.accounts = restore.accounts;
+			//this.lastAccountNr = restore.lastAccountNr;
 		} catch (IOException | ClassNotFoundException e) {
 			lastAccountNr = 0;
 			accounts = new HashMap<Integer,Account>();
@@ -188,7 +187,9 @@ public class BankImpl implements Bank, Serializable{
 	 */
 	private void saveData() {
 		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(DATA_FILE))){
-			out.writeObject(this);
+			//out.writeObject(this);
+			out.writeInt(lastAccountNr);
+			out.writeObject(accounts);
 		} catch (IOException e) {
 			// Nothing to do here...
 		}
