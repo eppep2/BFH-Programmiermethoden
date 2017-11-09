@@ -207,7 +207,7 @@ public class BankImpl extends Thread implements Bank {
 	public void run() {
 		try {
 			while(!interrupted()) {
-				Thread.sleep(INTEREST_PERIOD);
+				sleep(INTEREST_PERIOD);
 				System.out.println("Paying interests");
 				Iterator<Entry<Integer, Account>> iter = accounts.entrySet().iterator();
 				while (iter.hasNext()) {

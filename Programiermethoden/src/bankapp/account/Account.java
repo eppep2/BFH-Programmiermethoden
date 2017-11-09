@@ -178,10 +178,13 @@ public abstract class Account implements Serializable {
 	
 	public synchronized void payInterests() {
 		try {
-			deposit(balance * getInterestRate());
+			if (balance >= 0)
+				deposit(balance * getInterestRate());
+			else
+				withdraw(0.0 - balance * getInterestRate());
 		} catch (BankException e) {
 			// This should never happen.
-			System.out.println("Can't pay interests");
+			System.out.println("Can't pay interests " + e.getMessage());
 		}
 	}
 }
