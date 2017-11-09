@@ -13,6 +13,8 @@ public class SavingsAccount extends Account{
 	 * The withdraw limit.
 	 */
 	static double WITHDRAW_LIMIT = 2000;
+	//** The interest rate. */
+	private static double INTEREST_RATE = 0.00250;
 	
 	/** Constructs a savings bank account.
 	 * @param nr the account number
@@ -43,5 +45,12 @@ public class SavingsAccount extends Account{
 	 */
 	public AccountType getType() {
 		return AccountType.SAVINGS;
+	}
+	
+	/** Gets the interest rate.
+	 * @return the interest rate
+	 */
+	public double getInterestRate() {
+		return INTEREST_RATE;
 	}
 }

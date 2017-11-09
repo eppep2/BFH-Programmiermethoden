@@ -5,12 +5,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import bankapp.account.Account;
 import bankapp.account.PersonalAccount;
@@ -23,7 +24,7 @@ import bankapp.account.Transaction;
  * @author Samuel Pulfer
  *
  */
-public class BankImpl implements Bank {
+public class BankImpl extends Thread implements Bank {
 
 	/**
 	 * The bank accounts associated to their numbers.
@@ -37,7 +38,8 @@ public class BankImpl implements Bank {
 	 * Value to compare double to zero.
 	 */
 	//private final double EPSILON = Math.ulp(1.0);
-	
+	//** The interest period (in milliseconds). */
+	private static long INTEREST_PERIOD = 5000;
 	/**
 	 * The name of the data file.
 	 */
@@ -46,6 +48,8 @@ public class BankImpl implements Bank {
 	public BankImpl() {
 		Paths.get(DATA_FILE).getParent().toFile().mkdirs();
 		loadData();
+		setDaemon(true);
+		start();
 	}
 
 	/**
@@ -169,6 +173,7 @@ public class BankImpl implements Bank {
 	/**
 	 * Loads the data of the bank from a file.
 	 */
+	@SuppressWarnings("unchecked")
 	private void loadData() {
 		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(DATA_FILE))){
 			//BankImpl restore = (BankImpl) in.readObject();
@@ -185,13 +190,35 @@ public class BankImpl implements Bank {
 	/**
 	 * Saves the data of the bank to a file.
 	 */
-	private void saveData() {
+	private synchronized void saveData() {
 		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(DATA_FILE))){
 			//out.writeObject(this);
 			out.writeInt(lastAccountNr);
 			out.writeObject(accounts);
 		} catch (IOException e) {
 			// Nothing to do here...
+		}
+	}
+	
+	/**
+	 * Periodically pays interests to the bank accounts.
+	 */
+	@Override
+	public void run() {
+		try {
+			while(!interrupted()) {
+				Thread.sleep(INTEREST_PERIOD);
+				System.out.println("Paying interests");
+				Iterator<Entry<Integer, Account>> iter = accounts.entrySet().iterator();
+				while (iter.hasNext()) {
+					iter.next().getValue().payInterests();
+				}
+				saveData();
+			}
+			
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

@@ -75,7 +75,7 @@ public abstract class Account implements Serializable {
 	 * @param amount the amount of money to deposit
 	 * @throws BankException if the deposit failed
 	 */
-	public void deposit(double amount) throws BankException {
+	public synchronized void deposit(double amount) throws BankException {
 		if (amount >= 0) {
 			balance = Math.round(100 * (balance + amount)) / 100.0;
 			transactions.add(new Transaction(amount, balance));
@@ -141,7 +141,7 @@ public abstract class Account implements Serializable {
 	 * @param amount the amount of money to withdraw
 	 * @throws BankException if the withdrawal failed
 	 */
-	public void withdraw(double amount) throws BankException {
+	public synchronized void withdraw(double amount) throws BankException {
 		if (amount > 0) {
 			balance = Math.round(100 * (balance - amount)) / 100.0;
 			transactions.add(new Transaction(0.0 - amount, balance));
@@ -154,7 +154,7 @@ public abstract class Account implements Serializable {
 	 * @param amount the amount of money to withdraw
 	 * @throws BankException if the withdrawal failed
 	 */
-	public void withdraw(int amount) throws BankException {
+	public synchronized void withdraw(int amount) throws BankException {
 		withdraw((double) amount);
 	}
 	/**
@@ -169,5 +169,19 @@ public abstract class Account implements Serializable {
 	 */
 	public List<Transaction> getTransactions(){
 		return transactions;
+	}
+	
+	/** Gets the interest rate.
+	 * @return the interest rate
+	 */
+	public abstract double getInterestRate();
+	
+	public synchronized void payInterests() {
+		try {
+			deposit(balance * getInterestRate());
+		} catch (BankException e) {
+			// This should never happen.
+			System.out.println("Can't pay interests");
+		}
 	}
 }

@@ -9,6 +9,8 @@ import bankapp.bank.AccountType;
  */
 public class PersonalAccount extends Account {
 
+	//** The interest rate. */
+	private static double INTEREST_RATE = 0.00125;
 	/** Constructs a personal bank account.
 	 * @param nr the account number
 	 * @param pin the PIN of the account
@@ -23,6 +25,13 @@ public class PersonalAccount extends Account {
 	 */
 	public AccountType getType() {
 		return AccountType.PERSONAL;
+	}
+	
+	/** Gets the interest rate.
+	 * @return the interest rate
+	 */
+	public double getInterestRate() {
+		return INTEREST_RATE;
 	}
 
 }
