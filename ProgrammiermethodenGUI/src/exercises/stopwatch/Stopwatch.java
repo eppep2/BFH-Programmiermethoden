@@ -26,9 +26,10 @@ public class Stopwatch extends Application{
         HBox controls = new HBox(10);
         controls.setAlignment(Pos.CENTER);
         controls.getChildren().addAll(btn_start, btn_stop, btn_reset);
-        HBox display = new HBox();
+        HBox display = new HBox(10);
         display.setAlignment(Pos.CENTER);
         VBox bottomBox = new VBox();
+        
         bottomBox.getChildren().addAll(controls, lbl_watchstate);
         
         display.getChildren().addAll(new Label("Sekunden:"), lbl_seconds);
@@ -40,7 +41,7 @@ public class Stopwatch extends Application{
         
         // Set up the stage and show it
         stage.setTitle(this.getClass().getSimpleName());
-        stage.setScene(new Scene(root, 200, 80));
+        stage.setScene(new Scene(root, 300, 200));
         stage.show();
 		
 	}
